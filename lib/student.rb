@@ -1,3 +1,5 @@
+# REFACTORED ATTEMPT 1
+
 class Student
   attr_accessor :id, :name, :grade
 
@@ -10,13 +12,17 @@ class Student
     new_student
   end
 
+  def self.loop_through_database(sql)
+    DB[:conn].execute(sql).map do |row|
+      self.new_from_db(row)
+    end
+  end
+
   def self.all
     # retrieve all the rows from the "Students" database
     sql = "SELECT * FROM students; "
     # remember each row should be a new instance of the Student class
-    DB[:conn].execute(sql).map do |row|
-      self.new_from_db(row)
-    end
+    self.loop_through_database(sql)
   end
 
   def self.find_by_name(name)
@@ -30,16 +36,12 @@ class Student
 
   def self.all_students_in_grade_9
     sql = "SELECT * FROM students WHERE grade = 9;"
-    DB[:conn].execute(sql).map do |row|
-      self.new_from_db(row)
-    end
+    self.loop_through_database(sql)
   end
 
   def self.students_below_12th_grade
     sql = "SELECT * FROM students WHERE grade < 12;"
-    DB[:conn].execute(sql).map do |row|
-      self.new_from_db(row)
-    end
+    self.loop_through_database(sql)
   end
 
   def self.first_X_students_in_grade_10(number)
