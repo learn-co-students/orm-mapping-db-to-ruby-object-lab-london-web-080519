@@ -44,14 +44,34 @@ class Student
 
   def self.first_X_students_in_grade_10(num)
     sql = <<-SQL
-      SELECT COUNT(students.name)
-      FROM students
-      WHERE grade = 10
-      LIMIT 1
-      
+      SELECT *
+      FROM students    
+      WHERE students.grade = 10
+      LIMIT ?
     SQL
-    binding.pry 
+    # binding.pry 
+    DB[:conn].execute(sql, num).map {|row| self.new_from_db(row)}
+  end
+
+  def self.first_student_in_grade_10
+    sql = <<-SQL
+      SELECT *
+      FROM students
+      WHERE students.grade = 10
+      LIMIT 1
+    SQL
+
     DB[:conn].execute(sql).map {|row| self.new_from_db(row)}.first
+  end
+
+  def self.all_students_in_grade_X(grade)
+    sql = <<-SQL
+      SELECT *
+      FROM students
+      WHERE students.grade = grade
+
+    SQL
+    DB[:conn].execute(sql).map{|row| self.new_from_db(row)}
   end
 
   def self.find_by_name(name)
