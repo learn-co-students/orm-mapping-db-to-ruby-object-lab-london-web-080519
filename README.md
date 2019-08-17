@@ -74,8 +74,8 @@ an array of all the students in grade 9.
 
 ### The `.students_below_12th_grade` Method
 
-This is a class method that does not need an argument. This method should return
-an array of all the students below 12th grade.
+<!-- This is a class method that does not need an argument. This method should return
+an array of all the students below 12th grade. -->
 
 ### The `.first_X_students_in_grade_10` Method
 
